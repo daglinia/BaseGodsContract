@@ -1,0 +1,14 @@
+cache/
+out/
+artifacts/
+typechain/
+node_modules/
+broadcast/
+
+*.log
+*.vim
+
+.env
+
+lib/forge-std
+lib/openzeppelin-contracts

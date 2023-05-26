@@ -1,0 +1,21 @@
+{
+  "name": "olympus-clash-nft",
+  "description": "NFT collection containing Greek Mythology figures bundled with attack and defence point attributes that will create the best gaming experience.",
+  "author": "Daglinia <daglinia.nft@gmail.com>",
+  "license": "AGPL-3.0-only",
+  "version": "0.0.1",
+  "files": [
+    "src/**/*.sol"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/daglinia/CANTOGodsContract.git"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.23",
+    "prettier": "^2.8.1",
+    "prettier-plugin-solidity": "^1.0.0-dev.23",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3"
+  }
+}
