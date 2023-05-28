@@ -70,7 +70,7 @@ forge script "script/Battlecontract.s.sol:Deploy" \
     --slow \
     --broadcast \
     --legacy \
-    --with-gas-price 1000000000 \
+    --with-gas-price 1000000000000 \
     -vvvv
 
 

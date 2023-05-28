@@ -15,8 +15,8 @@ contract Battlecontract is ERC721, ERC721Enumerable, Ownable, Pausable {
     error MaxSupplyReached();
     event BaseURIChanged(string previousBaseURI, string newBaseURI);
 
-    constructor() ERC721("Battlecontract1", "BTLC") {
-        baseURI = "https://divart.io/api/v1/collections/battle-nfts/metadata/";
+    constructor() ERC721("Battlecontract", "BTLC") {
+        baseURI = "https://olympusclash.io/api/v1/collections/battle-nfts/metadata/";
     }
 
     function setExpectedAddress(address _address) public onlyOwner {
