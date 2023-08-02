@@ -70,7 +70,7 @@ forge script "script/Battlecontract.s.sol:Deploy" \
     --slow \
     --broadcast \
     --legacy \
-    --with-gas-price 1000000000000 \
+    --with-gas-price 100 \
     -vvvv
 
 
@@ -82,7 +82,7 @@ forge script "script/OlympusClash.s.sol:Deploy" \
     --slow \
     --broadcast \
     --legacy \
-    --with-gas-price 1000000000000 \
+    --with-gas-price 100 \
     -vvvv
 
 
@@ -102,22 +102,22 @@ VERIFY CONTRACT
 
   forge verify-contract OlympusClash \
  0xBCe0ddb6B4486dcc20a9Ae9cb200F2f407C0b1FC \
-  --chain-id 7700 \
+  --chain-id 8453 \
   --verifier blockscout
 
   forge verify-check 0xBCe0ddb6B4486dcc20a9Ae9cb200F2f407C0b1FC \
-  --chain-id 7700 \
+  --chain-id 8453 \
   --verifier blockscout
 
 
 
 
-forge verify-contract --chain 7700 --optimizer-runs 200 --compiler-version 0.8.14 0xBCe0ddb6B4486dcc20a9Ae9cb200F2f407C0b1FC src/OlympusClash.sol:OlympusClash --show-standard-json-input > stdin.json
+forge verify-contract --chain 8453 --optimizer-runs 666 --compiler-version 0.8.14 0xBCe0ddb6B4486dcc20a9Ae9cb200F2f407C0b1FC src/OlympusClash.sol:OlympusClash --show-standard-json-input > stdin.json
 
 
 
 
-forge verify-contract --chain-id 7700 --optimizer-runs 200 --compiler-version 0.8.14 0xBCe0ddb6B4486dcc20a9Ae9cb200F2f407C0b1FC src/OlympusClash.sol:OlympusClash --verifier sourcify
+forge verify-contract --chain-id 8453 --optimizer-runs 666 --compiler-version 0.8.14 0xBCe0ddb6B4486dcc20a9Ae9cb200F2f407C0b1FC src/OlympusClash.sol:OlympusClash --verifier sourcify
 
 
 

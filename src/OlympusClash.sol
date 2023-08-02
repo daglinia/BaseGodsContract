@@ -36,7 +36,7 @@ contract OlympusClash is ERC721, ERC721Enumerable, ERC721Burnable, ReentrancyGua
 
     constructor() ERC721("OlympusClash", "OLC") {
         mintStartTimestamp = 1668008000; // 2022-11-19T12:00:00Z
-        mintPrice = 10 ether;
+        mintPrice = 0.002 ether;
         baseURI = "https://olympusclash.io/api/v1/collections/olympus-clash/metadata/";
     }
 
