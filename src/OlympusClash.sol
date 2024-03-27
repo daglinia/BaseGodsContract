@@ -8,18 +8,24 @@ import "openzeppelin-contracts/contracts/security/ReentrancyGuard.sol";
 import "openzeppelin-contracts/contracts/security/Pausable.sol";
 import "openzeppelin-contracts/contracts/access/Ownable.sol";
 import { BattleInterface } from "./InterfaceBC.sol";
+import { ZeusInterface } from "./InterfaceZS.sol";
+import { PaymentInterface } from "./InterfacePC.sol";
 
 contract OlympusClash is ERC721, ERC721Enumerable, ERC721Burnable, ReentrancyGuard, Pausable, Ownable {
     uint256 public constant MAX_SUPPLY = 100000;
-    address public TREASURY = 0xc36990aD2C248EE3dEe7Df8e0a6ac603235eB576;
-    address public expectedAddress = 0xc36990aD2C248EE3dEe7Df8e0a6ac603235eB576;
+    address public TREASURY = 0x0000000000000000000000000000000000000000;
+    address public expectedAddress = 0x0000000000000000000000000000000000000000;
     uint256 public mintStartTimestamp;
     uint256 public mintPrice;
     string public baseURI;
     uint256 private tokenId = 0;
     address public BattleContractAddress = 0x0000000000000000000000000000000000000000;
+    address public ZeusContractAddress = 0x0000000000000000000000000000000000000000;
     address public OlympusClashContractAddress = 0x0000000000000000000000000000000000000000;
+    address public PaymentContractAddress = 0x0000000000000000000000000000000000000000;
     BattleInterface battle_interface = BattleInterface(BattleContractAddress);
+    ZeusInterface zeus_interface = ZeusInterface(ZeusContractAddress);
+    PaymentInterface payment_interface = PaymentInterface(PaymentContractAddress);
 
     error MaxSupplyReached();
     error InvalidAmount();
@@ -38,10 +44,6 @@ contract OlympusClash is ERC721, ERC721Enumerable, ERC721Burnable, ReentrancyGua
         mintStartTimestamp = 1668008000; // 2022-11-19T12:00:00Z
         mintPrice = 0.002 ether;
         baseURI = "https://olympusclash.io/api/v1/collections/olympus-clash/metadata/";
-    }
-
-    function setTREASURY(address _address) public onlyOwner {
-        TREASURY = _address;
     }
 
     function setExpectedAddress(address _address) public onlyOwner {
@@ -95,20 +97,14 @@ contract OlympusClash is ERC721, ERC721Enumerable, ERC721Burnable, ReentrancyGua
             _mint(msg.sender);
         }
 
-        (bool success, ) = TREASURY.call{ value: totalMintPrice }("");
-        if (!success) {
-            revert TransferFailed(TREASURY);
-        }
+        payment_interface.deposit{value: totalMintPrice}();
+
 
         uint256 excessPayment = msg.value - totalMintPrice;
         if (excessPayment == 0) {
             return;
         }
 
-        (success, ) = msg.sender.call{ value: excessPayment }("");
-        if (!success) {
-            revert TransferFailed(msg.sender);
-        }
     }
 
     function tokensOfOwner(address owner) external view returns (uint256[] memory) {
@@ -174,6 +170,15 @@ contract OlympusClash is ERC721, ERC721Enumerable, ERC721Burnable, ReentrancyGua
         battle_interface.mint_Battle(OlympusClashContractAddress, the_nft_owner, the_tokenId);
     }
 
+    function burn_mint_for_luckyDraw(address nft_owner, uint256 _tokenId) public {
+        _burn(_tokenId);
+        luckyDraw_Zeuscontract(nft_owner);
+    }
+
+    function luckyDraw_Zeuscontract(address the_nft_owner) internal {
+        zeus_interface.luckyDraw(the_nft_owner);
+    }
+
     function setBattleAddress(address _address) public onlyOwner {
         BattleContractAddress = _address;
         battle_interface = BattleInterface(BattleContractAddress);
@@ -182,6 +187,21 @@ contract OlympusClash is ERC721, ERC721Enumerable, ERC721Burnable, ReentrancyGua
     function setOlympusAddress(address _address) public onlyOwner {
         OlympusClashContractAddress = _address;
     }
+
+    function setZeusAddress(address _address) public onlyOwner {
+        ZeusContractAddress = _address;
+        zeus_interface = ZeusInterface(ZeusContractAddress);
+    }
+
+    function setPaymentAddress(address _address) public onlyOwner {
+        PaymentContractAddress = _address;
+        payment_interface = PaymentInterface(PaymentContractAddress);
+    }
+
+    function setTreasuryAddress(address _address) public onlyOwner {
+        TREASURY = _address;
+    }
+    
 
     function bulkTransfer(uint256[] memory tokenIds, address _to) public onlyOwner {
         uint256 length = tokenIds.length;
