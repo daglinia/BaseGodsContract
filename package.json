@@ -9,7 +9,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/daglinia/CANTOGodsContract.git"
+    "url": "https://github.com/daglinia/BASEGodsContract.git"
   },
   "devDependencies": {
     "@types/node": "^17.0.23",
